@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
       includePaths: [path.join(process.cwd(), 'styles')]
    },
    images: {
-      // для работы с локальным Strapi в dev
+      unoptimized: true,
       dangerouslyAllowLocalIP: isDev,
       remotePatterns: [
          {
