@@ -1,0 +1,70 @@
+body {
+    font-family: Gilroy;
+    font-size: calc(18 / var(--vw) * var(--multiplier));
+
+    color: var(--color-black);
+    background-color: var(--color-white);
+}
+a {
+    text-decoration: none;
+}
+.container {
+    max-width: calc(1920px + var(--section-padding) * 2);
+    padding-inline: var(--section-padding);
+    margin-inline: auto;
+}
+.burger {
+    display: none;
+    flex-direction: column;
+    row-gap: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    @media (max-width: 1024px) {
+        display: flex;
+    }
+    & span {
+        width: 60%;
+        height: 2px;
+        background-color: var(--color-white);
+        display: block;
+        transition: 0.3s ease;
+        transform-origin: center;
+    }
+    &.active {
+        & span:nth-child(1) {
+            transform: translateY(3.5px) rotate(47deg);
+        }
+        & span:nth-child(2) {
+            transform: translateY(-3px) rotate(-47deg);
+        }
+    }
+}
+.arrow {
+    display: block;
+    width: 17px;
+    height: 17px;
+    min-width: 17px;
+    min-height: 17px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='17' height='17' viewBox='0 0 17 17' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath fill-rule='evenodd' clip-rule='evenodd' d='M5.56758 1.05523e-06L15.8568 0C16.4882 6.59524e-07 17 0.511848 17 1.14324L17 11.4324C17 12.0638 16.4882 12.5757 15.8568 12.5757C15.2254 12.5757 14.7135 12.0638 14.7135 11.4324V3.90327L1.61679 17L0 15.3832L13.0967 2.28648H5.56758C4.93619 2.28648 4.42434 1.77464 4.42434 1.14324C4.42434 0.511847 4.93619 1.05523e-06 5.56758 1.05523e-06Z' fill='rgba(39, 43, 55, 1)'/%3e%3c/svg%3e ");
+}
+.btn-arrow {
+    width: 54px;
+    height: 54px;
+
+    border-radius: var(--radius-20);
+    background-color: var(--color-main);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 17px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='17' height='17' viewBox='0 0 17 17' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath fill-rule='evenodd' clip-rule='evenodd' d='M5.56758 1.05523e-06L15.8568 0C16.4882 6.59524e-07 17 0.511848 17 1.14324L17 11.4324C17 12.0638 16.4882 12.5757 15.8568 12.5757C15.2254 12.5757 14.7135 12.0638 14.7135 11.4324V3.90327L1.61679 17L0 15.3832L13.0967 2.28648H5.56758C4.93619 2.28648 4.42434 1.77464 4.42434 1.14324C4.42434 0.511847 4.93619 1.05523e-06 5.56758 1.05523e-06Z' fill='white'/%3e%3c/svg%3e ");
+
+    @media (max-width: 1920px) {
+        width: calc(54 / var(--vw) * var(--multiplier));
+        height: calc(54 / var(--vw) * var(--multiplier));
+        background-size: calc(17 / var(--vw) * var(--multiplier));
+        border-radius: calc(20 / var(--vw) * var(--multiplier));
+    }
+}
