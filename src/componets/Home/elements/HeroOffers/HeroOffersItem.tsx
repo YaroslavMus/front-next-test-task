@@ -9,7 +9,7 @@ type Props = {
 export const HeroOffersItem = ({ offer }: Props) => {
     return (
         <Link
-            href={offer.href}
+            href={offer.link}
             className="offers-card__item"
             aria-label={`Открыть предложение: ${offer.title}`}
         >

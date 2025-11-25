@@ -52,6 +52,8 @@
             font-size: 18px;
             line-height: 100%;
 
+            transition: all 0.3s;
+
             padding: 15.5px 21.5px;
 
             color: var(--color-black);
@@ -64,6 +66,9 @@
             @media (max-width: 1024px) {
                 font-size: 14px;
                 padding: 8.5px 13.5px;
+            }
+            &:hover {
+                color: var(--color-main);
             }
             &.active {
                 color: var(--color-white);
@@ -80,6 +85,8 @@
             align-items: center;
             justify-content: center;
 
+            transition: all 0.3s;
+
             width: 54px;
             height: 54px;
             border-radius: 50%;
@@ -92,6 +99,9 @@
             @media (max-width: 1024px) {
                 width: 34px;
                 height: 34px;
+            }
+            &:hover {
+                opacity: 0.8;
             }
             & svg {
                 width: 21px;

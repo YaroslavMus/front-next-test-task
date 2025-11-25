@@ -1,39 +1,39 @@
 'use client'
 
 import Link from 'next/link'
-import { SearchIcon } from './icons/SearchIcon'
-import { HeartIcon } from './icons/HeartIcon'
-import { CartIcon } from './icons/CartIcon'
-import { useState } from 'react'
-import cn from 'classnames'
+import type { HeaderAction } from '@/types/header/header'
+import { CartIcon, HeartIcon, SearchIcon } from './icons'
 
-export const HeaderActions = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false)
+type Props = {
+    actions: HeaderAction[]
+}
 
+const renderIcon = (type: HeaderAction['type']) => {
+    switch (type) {
+        case 'search':
+            return <SearchIcon />
+        case 'favorites':
+            return <HeartIcon />
+        case 'cart':
+            return <CartIcon />
+        default:
+            return null
+    }
+}
+
+export const HeaderActions = ({ actions }: Props) => {
     return (
         <div className="header__actions">
-            <Link className="header__actions-link" href="/search" aria-label="Поиск">
-                <SearchIcon />
-            </Link>
-
-            <Link className="header__actions-link" href="/favorites" aria-label="Избранное">
-                <HeartIcon />
-            </Link>
-
-            <Link className="header__actions-link" href="/cart" aria-label="Корзина">
-                <CartIcon />
-            </Link>
-
-            <button
-                type="button"
-                className={cn('header__actions-link', 'burger', { active: isMenuOpen })}
-                onClick={() => setIsMenuOpen(v => !v)}
-                aria-label="Меню"
-                aria-expanded={isMenuOpen}
-            >
-                <span />
-                <span />
-            </button>
+            {actions.map(action => (
+                <Link
+                    key={action.id}
+                    href={action.href}
+                    className="header__actions-link"
+                    aria-label={action.ariaLabel}
+                >
+                    {renderIcon(action.type)}
+                </Link>
+            ))}
         </div>
     )
 }

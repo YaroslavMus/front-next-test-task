@@ -1,115 +1,103 @@
-// src/lib/api/home.ts
-import type { HomeHeroData } from '@/types/home/hero'
+import type { HomeHeroData, HeroOffer } from '@/types/home/hero'
+import type { HomeHeroResponseDto } from '@/types/home/home-hero.dto'
+import { getStrapiMedia } from '../strapiMedia'
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? ''
 
 export async function getHomeHero(): Promise<HomeHeroData> {
-    // const res = await fetch(
-    //     `${process.env.NEXT_PUBLIC_API_URL}/api/home-hero?populate=deep`,
-    //     { next: { revalidate: 60 } }
-    // )
+   if (!API_URL) {
+      throw new Error('API url is not set')
+   }
 
-    // if (!res.ok) throw new Error('Failed to fetch home hero')
+   const res = await fetch(`${API_URL}/api/home?populate=deep`, {
+      headers: {
+         'Content-Type': 'application/json',
+         Authorization: `${process.env.NEXT_PUBLIC_API_TOKEN}`
+      },
+      next: { revalidate: 60 }
+   })
 
-    // const json = await res.json()
+   if (!res.ok) {
+      throw new Error('Failed to fetch home hero')
+   }
 
-    // // здесь маппинг под твой HomeHeroData
-    // const data: HomeHeroData = {
-    //     title: json.data.title,
-    //     subtitle: json.data.subtitle,
-    //     stats: [],
-    //     devices: [],
-    //     offers: [],
-    //     accountCard: {} as any,
-    //     storageCard: {} as any,
-    //     social: {} as any,
-    //     articles: {} as any,
-    //     bottomText: '',
-    // }
+   const json = (await res.json()) as HomeHeroResponseDto
+   const entry = json.data
 
-    return {
-        title: 'Интернет-магазин оборудования для защиты криптоактивов',
-        subtitle: 'Cryptoro – официальный реселлер, самый большой выбор в России',
+   const main = entry.main_card
+   const offersBlock = entry.offers_block
+   const bottomLeft = entry.bottom_left_cards
+   const bottomRight = entry.bottom_right_block
+   const center = entry.bottom_center_block
+   const social = entry.bottom_center_block_social
 
-        stats: [
-            { value: '10+', label: 'лет на рынке' },
-            { value: '50+', label: 'брендов' },
-        ],
+   const mapped: HomeHeroData = {
+      main: {
+         title: main.title,
+         subtitle: main.description,
+         buttonLabel: main.cta_label,
+         buttonHref: main.cta_link,
+         stats: main.stats.map(s => ({
+            label: s.label,
+            value: s.value
+         })),
+         devices: main.devices.map(d => ({
+            id: d.id,
+            imageUrl: getStrapiMedia(d.image?.url),
+            alt: d.alt
+         }))
+      },
 
-        devices: [
-            { id: 1, imageUrl: '/images/deviceCard/item-1.png', alt: 'Устройство 1' },
-            { id: 2, imageUrl: '/images/deviceCard/item-2.png', alt: 'Устройство 2' },
-            { id: 3, imageUrl: '/images/deviceCard/item-3.png', alt: 'Устройство 3' },
-            { id: 4, imageUrl: '/images/deviceCard/item-4.png', alt: 'Устройство 4' },
-            { id: 5, imageUrl: '/images/deviceCard/item-5.png', alt: 'Устройство 5' },
-            { id: 6, imageUrl: '/images/deviceCard/item-6.png', alt: 'Устройство 6' },
-        ],
+      offer: {
+         title: offersBlock.title,
+         items: offersBlock.offers.map<HeroOffer>(o => ({
+            id: o.id,
+            title: o.title,
+            price: o.price,
+            currency: o.currency,
+            link: o.link,
+            imageUrl: getStrapiMedia(o.image?.url),
+            imageAlt: o.alt || o.image?.alternativeText || ''
+         }))
+      },
 
-        offers: [
-            {
-                id: 1,
-                title: 'SecuX Nifty NFT',
-                price: 24490,
-                slug: 'secux-nifty',
-                href: '#',
-                imageUrl: '/images/offersCard/item.png',
-                imageAlt: 'SecuX Nifty NFT',
-            },
-            {
-                id: 2,
-                title: 'Cryptotag Thor',
-                price: 14490,
-                slug: 'cryptotag-thor',
-                href: '#',
-                imageUrl: '/images/offersCard/item-2.png',
-                imageAlt: 'Cryptotag Thor',
-            },
-            {
-                id: 3,
-                title: 'Yubikey 5C Nano',
-                price: 2490,
-                slug: 'yubikey-5c-nano',
-                href: '#',
-                imageUrl: '/images/offersCard/item-3.png',
-                imageAlt: 'Yubikey 5C Nano',
-            },
-            {
-                id: 4,
-                title: 'Trezor T Black',
-                price: 8490,
-                slug: 'trezor-t-black',
-                href: '#',
-                imageUrl: '/images/offersCard/item-4.png',
-                imageAlt: 'Trezor T Black',
-            },
-        ],
+      accountCard: {
+         title: bottomLeft.title,
+         href: bottomLeft.link,
+         imageUrl: getStrapiMedia(bottomLeft.image?.url),
+         imageAlt: bottomLeft.image?.alternativeText || bottomLeft.title
+      },
 
-        accountCard: {
-            title: 'Защита учётных записей',
-            imageUrl: '/images/card-fles.png',
-            imageAlt: 'Защита учётных записей',
-            href: '#',
-        },
+      storageCard: {
+         title: bottomRight.title,
+         href: bottomRight.link,
+         imageUrl: getStrapiMedia(bottomRight.image?.url),
+         imageAlt: bottomRight.image?.alternativeText || bottomRight.title
+      },
 
-        storageCard: {
-            title: 'Хранение паролей и seed-фраз',
-            imageUrl: '/images/card-unver.png',
-            imageAlt: 'Хранение паролей',
-            href: '#',
-        },
+      social: {
+         label: social.title,
+         logoUrl: '/images/logo-min.svg',
+         email: social.email_badge_text,
+         links: social.social_links.map(link => ({
+            platform: link.platform,
+            url: link.url,
+            iconUrl: getStrapiMedia(link.icon?.url),
+            alt: link.icon?.alternativeText ?? link.platform
+         }))
+      },
 
-        social: {
-            label: 'Социальные сети',
-            logoUrl: '/images/logo-min.svg',
-            telegramUrl: '#',
-            youtubeUrl: '#',
-            email: 'shop@cryptoro.ru',
-        },
+      articlesBlock: {
+         label: center.title,
+         iconUrl: getStrapiMedia(center.icon?.url),
+         href: center.cta_link,
+         ctaLabel: center.cta_label,
+         imageUrl: getStrapiMedia(center.image?.url),
+         imageAlt: bottomLeft.image?.alternativeText || 'Актуальная статья'
+      },
 
-        articles: {
-            link: '#',
-            imageUrl: '/images/articlesCard/images.png',
-        },
+      bottomText: entry.bottom_note ?? ''
+   }
 
-        bottomText:
-            'Физические устройства из стали и титана надёжнее бумаги и облачных сервисов',
-    }
+   return mapped
 }

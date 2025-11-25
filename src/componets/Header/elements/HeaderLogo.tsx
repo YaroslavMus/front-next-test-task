@@ -1,16 +1,20 @@
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 
-export const HeaderLogo = () => (
+type Props = {
+    logoUrl: string
+    logoAlt: string
+}
+
+export const HeaderLogo = ({ logoUrl, logoAlt }: Props) => (
     <div className="header__logo">
         <Link className="header__logo-link" href="/">
             <Image
                 className="header__logo-img"
-                src="/images/logo.svg"
-                width={305}
-                height={40}
-                alt="Cryptoro"
-                priority
+                src={logoUrl}
+                alt={logoAlt}
+                width={150}
+                height={32}
             />
         </Link>
     </div>

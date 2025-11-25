@@ -1,3 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Gilroy;
     font-size: calc(18 / var(--vw) * var(--multiplier));
@@ -16,6 +22,7 @@ a {
 .burger {
     display: none;
     flex-direction: column;
+    border: none;
     row-gap: 4px;
     cursor: pointer;
     transition: all 0.3s;
@@ -54,6 +61,8 @@ a {
     width: 54px;
     height: 54px;
 
+    transition: all 0.3s;
+
     border-radius: var(--radius-20);
     background-color: var(--color-main);
     background-repeat: no-repeat;
@@ -66,5 +75,8 @@ a {
         height: calc(54 / var(--vw) * var(--multiplier));
         background-size: calc(17 / var(--vw) * var(--multiplier));
         border-radius: calc(20 / var(--vw) * var(--multiplier));
+    }
+    &:hover {
+        opacity: 0.8;
     }
 }

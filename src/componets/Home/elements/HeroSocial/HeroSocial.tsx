@@ -6,8 +6,19 @@ type Props = {
     data: HeroSocialType
 }
 
+const getPlatformLabel = (platform: string) => {
+    switch (platform) {
+        case 'telegram':
+            return 'Открыть Telegram'
+        case 'youtube':
+            return 'Перейти на YouTube-канал'
+        default:
+            return `Открыть ${platform}`
+    }
+}
+
 export const HeroSocial = ({ data }: Props) => {
-    const { label, logoUrl, telegramUrl, youtubeUrl, email } = data
+    const { label, logoUrl, email, links } = data
 
     return (
         <div className="social-card">
@@ -15,43 +26,26 @@ export const HeroSocial = ({ data }: Props) => {
                 <span className="social-card__label">{label}</span>
 
                 <div className="social-card__logo">
-                    <Image
-                        src={logoUrl}
-                        alt="Логотип"
-                        width={32}
-                        height={32}
-                    />
+                    <Image src={logoUrl} alt="Логотип" width={32} height={32} />
                 </div>
             </div>
 
             <div className="social-card__bottom">
-                <Link
-                    href={telegramUrl}
-                    className="social-card__icon"
-                    aria-label="Открыть Telegram"
-                >
-                    <Image
-                        src="/images/socialCard/icon-telegram.svg"
-                        alt=""
-                        width={28}
-                        height={28}
-                        aria-hidden="true"
-                    />
-                </Link>
-
-                <Link
-                    href={youtubeUrl}
-                    className="social-card__icon"
-                    aria-label="Перейти на YouTube канал"
-                >
-                    <Image
-                        src="/images/socialCard/icon-youtube.svg"
-                        alt=""
-                        width={28}
-                        height={28}
-                        aria-hidden="true"
-                    />
-                </Link>
+                {links.map(link => (
+                    <Link
+                        key={link.platform}
+                        href={link.url}
+                        className="social-card__icon"
+                        aria-label={getPlatformLabel(link.platform)}
+                    >
+                        <Image
+                            src={link.iconUrl}
+                            alt={link.alt}
+                            width={28}
+                            height={28}
+                        />
+                    </Link>
+                ))}
 
                 <a
                     href={`mailto:${email}`}

@@ -81,6 +81,7 @@
                         }
                     }
                     &__button {
+                        margin-left: 10px;
                         display: inline-flex;
                         column-gap: 10px;
                         font-weight: 400;
@@ -91,6 +92,8 @@
                         transform: translateY(-6px);
 
                         padding: 12px 14px;
+
+                        cursor: pointer;
 
                         color: #fff;
                         border-radius: 24px;
@@ -212,6 +215,11 @@
                             height: 54px;
                             padding: 10px;
                         }
+                        & img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                        }
                         &:first-child {
                             margin-left: 0px;
                         }
@@ -274,6 +282,10 @@
                         }
                         @media (max-width: 1054px) {
                             width: 40px;
+                        }
+                        & img {
+                            width: 100%;
+                            height: 100%;
                         }
                     }
                     &__list {
@@ -406,6 +418,10 @@
                         @media (max-width: 1054px) {
                             width: 40px;
                         }
+                        & img {
+                            width: 100%;
+                            height: 100%;
+                        }
                     }
                     &__label {
                         font-weight: 400;
@@ -537,6 +553,7 @@
                     &__icon {
                         width: 44px;
                         height: 44px;
+                        padding: 10px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -602,6 +619,10 @@
                     &__image-wrap {
                         margin-bottom: -10%;
                         margin-right: -10%;
+                        & img {
+                            width: 100%;
+                            height: 100%;
+                        }
                     }
                 }
             }
@@ -609,6 +630,11 @@
                 position: relative;
                 width: 100%;
                 height: 100%;
+                &:hover {
+                    & .universal-card__image {
+                        transform: scale(1.1);
+                    }
+                }
                 & .universal-card {
                     width: 100%;
                     height: 100%;
@@ -666,6 +692,7 @@
                         width: 100%;
                         height: 100%;
                         object-fit: cover;
+                        transition: all 0.3s;
                     }
                     &__title {
                         padding: 30px 30px 0px;

@@ -8,7 +8,6 @@ type Props = {
 
 export const HeroUniversal = ({ card }: Props) => {
     const { title, imageUrl, imageAlt, href } = card
-
     return (
         <>
             <div className="universal-card">

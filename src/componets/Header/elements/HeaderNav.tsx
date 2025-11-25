@@ -1,32 +1,26 @@
-'use client'
-
+"use client"
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import cn from 'classnames'
+import type { HeaderNavItem } from '@/types/header/header'
 
-const NAV_LINKS = [
-    { href: '/', label: 'Главная' },
-    { href: '/catalog', label: 'Каталог' },
-    { href: '/brands', label: 'Бренды' },
-    { href: '/delivery', label: 'Доставка и оплата' },
-    { href: '/help', label: 'Помощь' },
-    { href: '/company', label: 'Компания' },
-]
+type Props = {
+    items: HeaderNavItem[]
+}
 
-export const HeaderNav = () => {
+export const HeaderNav = ({ items }: Props) => {
     const pathname = usePathname()
 
     return (
-        <nav className="header__nav" aria-label="Основная навигация">
-            {NAV_LINKS.map(link => {
-                const isActive = pathname === link.href
+        <nav className="header__nav">
+            {items.map(item => {
+                const isActive = pathname === item.href
                 return (
                     <Link
-                        key={link.href}
-                        href={link.href}
-                        className={cn('header__nav-link', { active: isActive })}
+                        key={item.id}
+                        href={item.href}
+                        className={`header__nav-link ${isActive ? 'header__nav-link--active' : ''}`}
                     >
-                        {link.label}
+                        {item.label}
                     </Link>
                 )
             })}

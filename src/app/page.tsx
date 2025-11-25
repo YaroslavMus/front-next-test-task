@@ -10,7 +10,6 @@ export default async function HomePage() {
   return (
     <div>
       <Home data={hero} />
-      {/* дальше остальные секции */}
     </div>
   )
 }
